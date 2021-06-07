@@ -7,8 +7,8 @@
 # Get options.
 # -------------------------------------------------------------------------------------------------------------------- #
 
-mysqldump=$( which mysqldump )
-tar=$( which tar )
+mysqldump=$( command -v mysqldump )
+tar=$( command -v tar )
 sleep="2"
 
 OPTIND=1
@@ -50,8 +50,8 @@ for i in "${database[@]}"; do
 
   echo "" && echo "--- Open: ${i}"
   ${mysqldump} -u "${user}" -p"${password}" --single-transaction "${i}" > "${filename}" \
-  && ${tar} -cJf "${filename}.tar.xz" "${filename}"                                     \
-  && rm -f "${filename}"
+    && ${tar} -cJf "${filename}.tar.xz" "${filename}"                                   \
+    && rm -f "${filename}"
   echo "" && echo "--- Done: ${i}" && echo ""
 
   sleep ${sleep}
