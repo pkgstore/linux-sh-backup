@@ -48,7 +48,7 @@ for i in "${database[@]}"; do
   timestamp=$( timestamp )
 
   echo "" && echo "--- Open: ${i}"
-  ${mysqldump} -u"${user}" -p"${password}" --single-transaction "${i}" > "${i}.${timestamp}.sql"  \
+  ${mysqldump} -u "${user}" -p"${password}" --single-transaction "${i}" > "${i}.${timestamp}.sql"  \
   && ${tar} -cJf "${i}.${timestamp}.sql.tar.xz" "${i}.${timestamp}.sql"                           \
   && rm -f "${i}.${timestamp}.sql"
   echo "" && echo "--- Done: ${i}" && echo ""
