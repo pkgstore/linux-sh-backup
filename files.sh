@@ -7,8 +7,6 @@
 # Get options.
 # -------------------------------------------------------------------------------------------------------------------- #
 
-tar=$( command -v tar )
-
 OPTIND=1
 
 while getopts "d:h" opt; do
@@ -31,6 +29,8 @@ shift $(( OPTIND - 1 ))
 # -----------------------------------------------------< SCRIPT >----------------------------------------------------- #
 # -------------------------------------------------------------------------------------------------------------------- #
 
+tar=$( command -v tar )
+
 timestamp() {
   timestamp=$( date -u '+%Y-%m-%d.%H-%M-%S' )
   echo "${timestamp}"
@@ -38,11 +38,11 @@ timestamp() {
 
 for i in "${directory[@]}"; do
   timestamp=$( timestamp )
-  backup_name="${i}"
+  backup_name="${i}.${timestamp}"
 
-  echo "" && echo "--- Open: ${i}"
-  ${tar} -cJf "${backup_name}.tar.xz" "${backup_name}"
-  echo "" && echo "--- Done: ${i}" && echo ""
+  echo "" && echo "--- Open: '${i}'"
+  ${tar} -cJf "${backup_name}.tar.xz" "${i}"
+  echo "" && echo "--- Done: '${i}'" && echo ""
 done
 
 # -------------------------------------------------------------------------------------------------------------------- #

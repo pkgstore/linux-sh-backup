@@ -7,9 +7,6 @@
 # Get options.
 # -------------------------------------------------------------------------------------------------------------------- #
 
-mysqldump=$( command -v mysqldump )
-tar=$( command -v tar )
-
 OPTIND=1
 
 while getopts "u:p:d:h" opt; do
@@ -38,6 +35,9 @@ shift $(( OPTIND - 1 ))
 # -----------------------------------------------------< SCRIPT >----------------------------------------------------- #
 # -------------------------------------------------------------------------------------------------------------------- #
 
+mysqldump=$( command -v mysqldump )
+tar=$( command -v tar )
+
 timestamp() {
   timestamp=$( date -u '+%Y-%m-%d.%H-%M-%S' )
   echo "${timestamp}"
@@ -47,11 +47,11 @@ for i in "${database[@]}"; do
   timestamp=$( timestamp )
   backup_name="${i}.${timestamp}.sql"
 
-  echo "" && echo "--- Open: ${i}"
+  echo "" && echo "--- Open: '${i}'"
   ${mysqldump} -u "${user}" -p"${password}" --single-transaction "${i}" > "${backup_name}"  \
     && ${tar} -cJf "${backup_name}.tar.xz" "${backup_name}"                                 \
     && rm -f "${backup_name}"
-  echo "" && echo "--- Done: ${i}" && echo ""
+  echo "" && echo "--- Done: '${i}'" && echo ""
 done
 
 # -------------------------------------------------------------------------------------------------------------------- #
