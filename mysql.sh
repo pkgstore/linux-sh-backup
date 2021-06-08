@@ -37,9 +37,11 @@ shift $(( OPTIND - 1 ))
 
 mysqldump=$( command -v mysqldump )
 tar=$( command -v tar )
+date=$( command -v date )
+rm=$( command -v rm )
 
 timestamp() {
-  timestamp=$( date -u '+%Y-%m-%d.%H-%M-%S' )
+  timestamp=$( ${date} -u '+%Y-%m-%d.%H-%M-%S' )
   echo "${timestamp}"
 }
 
@@ -50,7 +52,7 @@ for i in "${database[@]}"; do
   echo "" && echo "--- Open: '${i}'"
   ${mysqldump} -u "${user}" -p"${password}" --single-transaction "${i}" > "${backup_name}"  \
     && ${tar} -cJf "${backup_name}.tar.xz" "${backup_name}"                                 \
-    && rm -f "${backup_name}"
+    && ${rm} -f "${backup_name}"
   echo "" && echo "--- Done: '${i}'" && echo ""
 done
 

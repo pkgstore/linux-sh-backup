@@ -30,9 +30,10 @@ shift $(( OPTIND - 1 ))
 # -------------------------------------------------------------------------------------------------------------------- #
 
 tar=$( command -v tar )
+date=$( command -v date )
 
 timestamp() {
-  timestamp=$( date -u '+%Y-%m-%d.%H-%M-%S' )
+  timestamp=$( ${date} -u '+%Y-%m-%d.%H-%M-%S' )
   echo "${timestamp}"
 }
 
