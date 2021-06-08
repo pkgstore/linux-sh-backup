@@ -7,24 +7,17 @@
 # Get options.
 # -------------------------------------------------------------------------------------------------------------------- #
 
-mysqldump=$( command -v mysqldump )
 tar=$( command -v tar )
 
 OPTIND=1
 
-while getopts "u:p:d:h" opt; do
+while getopts "d:h" opt; do
   case ${opt} in
-    u)
-      user="${OPTARG}"
-      ;;
-    p)
-      password="${OPTARG}"
-      ;;
     d)
-      database="${OPTARG}"; IFS=';' read -ra database <<< "${database}"
+      directory="${OPTARG}"; IFS=';' read -ra directory <<< "${directory}"
       ;;
     h|*)
-      echo "-u '[user]' -p '[password]' -d '[db_1;db_2;db_3]'"
+      echo "-d '[dir_1;dir_2;dir_3]'"
       exit 2
       ;;
   esac
@@ -32,7 +25,7 @@ done
 
 shift $(( OPTIND - 1 ))
 
-(( ! ${#database[@]} )) || [[ -z "${org}" ]] && exit 1
+(( ! ${#directory[@]} )) && exit 1
 
 # -------------------------------------------------------------------------------------------------------------------- #
 # -----------------------------------------------------< SCRIPT >----------------------------------------------------- #
@@ -43,14 +36,12 @@ timestamp() {
   echo "${timestamp}"
 }
 
-for i in "${database[@]}"; do
+for i in "${directory[@]}"; do
   timestamp=$( timestamp )
-  backup_name="${i}.${timestamp}.sql"
+  backup_name="${i}"
 
   echo "" && echo "--- Open: ${i}"
-  ${mysqldump} -u "${user}" -p"${password}" --single-transaction "${i}" > "${backup_name}"  \
-    && ${tar} -cJf "${backup_name}.tar.xz" "${backup_name}"                                 \
-    && rm -f "${backup_name}"
+  ${tar} -cJf "${backup_name}.tar.xz" "${backup_name}"
   echo "" && echo "--- Done: ${i}" && echo ""
 done
 
