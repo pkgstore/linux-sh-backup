@@ -40,14 +40,13 @@ tar=$( command -v tar )
 date=$( command -v date )
 rm=$( command -v rm )
 
-timestamp() {
-  timestamp=$( ${date} -u '+%Y-%m-%d.%H-%M-%S' )
-  echo "${timestamp}"
+_timestamp() {
+  ${date} -u '+%Y-%m-%d.%H-%M-%S'
 }
 
 for i in "${database[@]}"; do
-  timestamp=$( timestamp )
-  backup_name="${i}.${timestamp}.sql"
+  ts=$( _timestamp )
+  backup_name="${i}.${ts}.sql"
 
   echo "" && echo "--- Open: '${i}'"
   ${mysqldump} -u "${user}" -p"${password}" --single-transaction "${i}" > "${backup_name}"  \

@@ -32,14 +32,13 @@ shift $(( OPTIND - 1 ))
 tar=$( command -v tar )
 date=$( command -v date )
 
-timestamp() {
-  timestamp=$( ${date} -u '+%Y-%m-%d.%H-%M-%S' )
-  echo "${timestamp}"
+_timestamp() {
+  ${date} -u '+%Y-%m-%d.%H-%M-%S'
 }
 
 for i in "${directory[@]}"; do
-  timestamp=$( timestamp )
-  backup_name="${i}.${timestamp}"
+  ts=$( _timestamp )
+  backup_name="${i}.${ts}"
 
   echo "" && echo "--- Open: '${i}'"
   ${tar} -cJf "${backup_name}.tar.xz" "${i}"
