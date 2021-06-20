@@ -35,10 +35,10 @@ shift $(( OPTIND - 1 ))
 # -----------------------------------------------------< SCRIPT >----------------------------------------------------- #
 # -------------------------------------------------------------------------------------------------------------------- #
 
-mysqldump=$( command -v mysqldump )
-tar=$( command -v tar )
-date=$( command -v date )
-rm=$( command -v rm )
+mysqldump="$( command -v mysqldump )"
+tar="$( command -v tar )"
+date="$( command -v date )"
+rm="$( command -v rm )"
 
 _timestamp() {
   ${date} -u '+%Y-%m-%d.%H-%M-%S'
