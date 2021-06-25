@@ -49,8 +49,8 @@ for i in "${database[@]}"; do
   backup_name="${i}.${ts}.sql"
 
   echo "" && echo "--- Open: '${i}'"
-  ${mysqldump} -u "${user}" -p"${password}" --single-transaction "${i}" > "${backup_name}"  \
-    && ${tar} -cJf "${backup_name}.tar.xz" "${backup_name}"                                 \
+  ${mysqldump} -u "${user}" -p"${password}" --single-transaction "${i}" > "${backup_name}" \
+    && ${tar} -cJf "${backup_name}.tar.xz" "${backup_name}" \
     && ${rm} -f "${backup_name}"
   echo "" && echo "--- Done: '${i}'" && echo ""
 done
